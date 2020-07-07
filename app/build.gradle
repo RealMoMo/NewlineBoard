@@ -14,12 +14,38 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters "arm64-v8a","armeabi-v7a"
+        }
+    }
+
+    //系统签名配置
+    signingConfigs {
+        debug {
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+            storeFile file('../askey/848.keystore')
+            storePassword "android"
+        }
+        release {
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+            storeFile file('../askey/848.keystore')
+            storePassword "android"
+        }
     }
 
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            signingConfig signingConfigs.debug
         }
     }
 
@@ -31,8 +57,11 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.gplibs:magic-surface-view:1.1.1'
+    implementation project(path: ':hhtstrokelib')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation project(path: ':commondraw')
+
 }

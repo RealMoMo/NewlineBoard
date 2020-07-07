@@ -8,7 +8,7 @@ import android.graphics.Color;
  * 笔刷属性
  */
 public class PropertyConfigStroke extends PropertyConfigBase {
-    protected float mStrokeWidth = 20;// 画笔宽度
+    protected float mStrokeWidth = 10;// 画笔宽度
     protected int mColor = Color.RED;
     /**
      * 透明度 0-255
