@@ -1,2 +1,3 @@
+include ':hhtstrokelib'
 rootProject.name='NewlineBoard'
 include ':app', ':commondraw'
