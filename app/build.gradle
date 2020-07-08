@@ -20,19 +20,21 @@ android {
         }
     }
 
+
+
     //系统签名配置
     signingConfigs {
-        debug {
+        mstar {
             keyAlias "androiddebugkey"
             keyPassword "android"
             storeFile file('../askey/848.keystore')
             storePassword "android"
         }
-        release {
-            keyAlias "androiddebugkey"
-            keyPassword "android"
-            storeFile file('../askey/848.keystore')
-            storePassword "android"
+        v811 {
+            keyAlias 'V811_android'
+            keyPassword 'V811_android'
+            storeFile file('../askey/V811_android.jks')
+            storePassword 'V811_android'
         }
     }
 
@@ -42,11 +44,31 @@ android {
             zipAlignEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.mstar
         }
         debug {
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.mstar
         }
+    }
+
+
+    //多渠道配置
+    flavorDimensions "default"
+    productFlavors{
+        mstar{
+            signingConfig signingConfigs.mstar
+        }
+        v811{
+            signingConfig signingConfigs.v811
+        }
+
+    }
+
+    //打包后应用名称
+    android.applicationVariants.all { variant ->
+            variant.outputs.all {
+                outputFileName = "NewlineIdea_${variant.productFlavors[0].name}.apk"
+            }
     }
 
 }
