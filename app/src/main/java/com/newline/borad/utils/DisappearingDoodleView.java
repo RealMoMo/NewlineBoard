@@ -71,9 +71,9 @@ public class DisappearingDoodleView extends View {
         mPaint = new Paint();
         mPaint.setColor(Color.RED);
         mPaint.setAntiAlias(true);
-        mPaint.setStrokeWidth(5);
+        mPaint.setStrokeWidth(0F);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
-        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStyle(Paint.Style.FILL);
     }
 
     public DisappearingDoodleView(Context context, AttributeSet attrs) {

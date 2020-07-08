@@ -1,12 +1,10 @@
-package com.newline.borad.common;
+package com.newline.borad.animation.magic;
 
 import android.animation.Animator;
 import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.animation.BounceInterpolator;
-import android.view.animation.LinearInterpolator;
 
 import java.util.ArrayList;
 import java.util.List;

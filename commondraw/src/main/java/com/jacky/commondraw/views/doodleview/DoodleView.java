@@ -193,6 +193,7 @@ public class DoodleView  extends SurfaceView implements IInternalDoodle {
         }
     };
 
+    @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         exitSelectionMode();// 退出，防止内存泄露

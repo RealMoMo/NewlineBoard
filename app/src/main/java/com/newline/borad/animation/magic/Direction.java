@@ -1,4 +1,4 @@
-package com.newline.borad.common;
+package com.newline.borad.animation.magic;
 
 public class Direction {
     public final static int LEFT = 0;

@@ -32,12 +32,14 @@ public class NewlineStrokePath {
     private float penWidth;
 
     private Path path;
+    private  Path tempPath;
 
     public NewlineStrokePath(){
         strokesAdr = new HHStrokesAdr();
         penType = TYPE_SOFT_PEN;
-        penWidth = 5.0f;
+        penWidth = 5f;
         path = new Path();
+        tempPath = new Path();
     }
 
 
@@ -60,7 +62,7 @@ public class NewlineStrokePath {
     }
 
 
-    public synchronized Path touchMove(MotionEvent event){
+    public Path touchMove(MotionEvent event){
         int length = event.getHistorySize()+1;
         float[] pointArray = new float[2*length];
         long[] timeArray = new long[length];
@@ -75,8 +77,6 @@ public class NewlineStrokePath {
         pointArray[pointArray.length-1] = event.getY();
         timeArray[timeArray.length-1] = event.getEventTime();
 
-        Log.e("realmo","point array:"+ Arrays.toString(pointArray));
-        Log.e("realmo","time array:"+ Arrays.toString(timeArray));
         JSketchResult result = strokesAdr.creating2(pointArray, timeArray,length);
         return makePath(result);
     }
@@ -90,14 +90,13 @@ public class NewlineStrokePath {
         }
         strokesAdr.cleanup();
 
-
         return temp;
     }
 
 
     private Path makePath(JSketchResult result){
         if (result != null) {
-            Log.e("realmo","result:"+result.toString());
+
             result.getUpdateRect();
 //            this.updateRect = result.getUpdateRect();
 //            curStrokeRect = updateRect;
@@ -106,19 +105,16 @@ public class NewlineStrokePath {
             int partNum = result.getPartsNum();
             int[] partPoints = result.getPartPointsData();
             int partOffset = 0;
-            Log.e("realmo","point num:"+pointNum);
-            Log.e("realmo","part num:"+partNum);
-            //path.reset();
-            Path temp = new Path();
+           tempPath.reset();
             for (int partCode = 0; partCode < partNum && pointNum > 0; partCode++) {
                 int partPointNum = partPoints[partCode];
-                temp.moveTo(points[partOffset * 2], points[partOffset * 2 + 1]);
+                tempPath.moveTo(points[partOffset * 2], points[partOffset * 2 + 1]);
                 for (int point = partOffset + 1; point < (partOffset + partPointNum); ++point) {
-                    temp.lineTo(points[point * 2], points[point * 2 + 1]);
+                    tempPath.lineTo(points[point * 2], points[point * 2 + 1]);
                 }
                 partOffset += partPointNum;
             }
-            path.addPath(temp);
+            path.addPath(tempPath);
         }
         return path;
     }

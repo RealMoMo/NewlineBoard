@@ -15,8 +15,8 @@ import com.gplibs.magicsurfaceview.MagicMultiSurface
 import com.gplibs.magicsurfaceview.MagicSurfaceView
 import com.gplibs.magicsurfaceview.MagicUpdaterListener
 import com.jacky.commondraw.views.doodleview.DoodleView
-import com.newline.borad.common.Direction
-import com.newline.borad.common.MultiScrapUpdater
+import com.newline.borad.animation.magic.Direction
+import com.newline.borad.animation.magic.MultiScrapUpdater
 import com.newline.borad.touch.FloatBarTouchEvent
 import com.newline.borad.touch.FloatBarTouchManager
 import com.newline.borad.utils.BitmapUtils
@@ -30,7 +30,7 @@ import com.newline.borad.utils.BitmapUtils
  * @time 2020/7/2 16:14
  * @describe
  */
-class BoardService : Service(), FloatBarTouchEvent, View.OnClickListener, View.OnTouchListener,
+class IdeaService : Service(), FloatBarTouchEvent, View.OnClickListener, View.OnTouchListener,
     ScaleGestureDetector.OnScaleGestureListener {
     private lateinit var mWindowManager: WindowManager
     private lateinit var mLayoutParams: WindowManager.LayoutParams
@@ -213,7 +213,10 @@ class BoardService : Service(), FloatBarTouchEvent, View.OnClickListener, View.O
 
 
     private fun show() {
-        val mMultiUpdater = MultiScrapUpdater(false, Direction.BOTTOM)
+        val mMultiUpdater = MultiScrapUpdater(
+            false,
+            Direction.BOTTOM
+        )
         mMultiUpdater.addListener(object : MagicUpdaterListener {
             override fun onStart() {
                 doodleView.setVisibility(View.INVISIBLE)
@@ -236,7 +239,10 @@ class BoardService : Service(), FloatBarTouchEvent, View.OnClickListener, View.O
     }
 
     private fun hide(bitmap : Bitmap?) {
-        val mMultiUpdater = MultiScrapUpdater(true, Direction.BOTTOM)
+        val mMultiUpdater = MultiScrapUpdater(
+            true,
+            Direction.BOTTOM
+        )
         mMultiUpdater.addListener(object : MagicUpdaterListener {
             override fun onStart() {
                 doodleView.setVisibility(View.INVISIBLE)

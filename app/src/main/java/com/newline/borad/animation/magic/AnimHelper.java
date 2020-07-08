@@ -1,4 +1,4 @@
-package com.newline.borad.common;
+package com.newline.borad.animation.magic;
 
 import com.gplibs.magicsurfaceview.MagicBaseSurface;
 import com.gplibs.magicsurfaceview.ReusableVec;

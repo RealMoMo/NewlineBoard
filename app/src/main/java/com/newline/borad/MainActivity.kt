@@ -10,7 +10,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(DisappearingDoodleView(this))
-        val intent = Intent(this,BoardService::class.java)
+        val intent = Intent(this,IdeaService::class.java)
         startService(intent)
         finish()
     }
