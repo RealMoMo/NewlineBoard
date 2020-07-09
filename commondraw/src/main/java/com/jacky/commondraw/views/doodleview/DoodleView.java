@@ -89,7 +89,7 @@ public class DoodleView  extends SurfaceView implements IInternalDoodle {
 
     private IModelManager mModelManager;
     private IVisualManager mVisualManager;
-    private int mStrokeType = InsertableObjectStroke.STROKE_TYPE_BRUSH;
+    private int mStrokeType = InsertableObjectStroke.STOKRE_TYPE_SOFT_PEN;
     /**
      * 操作是否由undo,redo产生的 如果是由undo,redo产生的，那么由其获得的命令并不压入命令栈
      */
@@ -464,7 +464,7 @@ public class DoodleView  extends SurfaceView implements IInternalDoodle {
     /**
      * 设置当前的输入模式
      *
-     * @param mInputMode
+     * @param inputMode
      */
     public void setInputMode(DoodleEnum.InputMode inputMode) {
         this.mInputMode = inputMode;

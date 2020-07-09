@@ -1,15 +1,8 @@
-package com.newline.borad.utils;
+package com.hhtpc.hhstrokesadr;
 
 import android.graphics.Path;
 import android.util.Log;
 import android.view.MotionEvent;
-
-import com.hhtpc.hhstrokesadr.HHStrokesAdr;
-import com.hhtpc.hhstrokesadr.JSketchResult;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 
 /**
@@ -20,8 +13,9 @@ import java.util.List;
  * @time 2020/7/7 9:16
  * @describe
  */
-public class NewlineStrokePath {
+public class HHTStrokePath {
 
+    private static HHTStrokePath mInstance;
     //硬笔
     private static final int TYPE_HEAD_PEN = 1;
     //软笔
@@ -34,7 +28,18 @@ public class NewlineStrokePath {
     private Path path;
     private  Path tempPath;
 
-    public NewlineStrokePath(){
+    public static HHTStrokePath getInstance(){
+        if(mInstance == null){
+            synchronized (HHTStrokePath.class) {
+                if (mInstance == null) {
+                    mInstance = new HHTStrokePath();
+                }
+            }
+        }
+        return mInstance;
+    }
+
+    private HHTStrokePath(){
         strokesAdr = new HHStrokesAdr();
         penType = TYPE_SOFT_PEN;
         penWidth = 5f;
@@ -98,7 +103,7 @@ public class NewlineStrokePath {
         if (result != null) {
 
             result.getUpdateRect();
-            Log.d("realmo","result:"+result.toString());
+
 //            this.updateRect = result.getUpdateRect();
 //            curStrokeRect = updateRect;
             int pointNum = result.getPointsNum();

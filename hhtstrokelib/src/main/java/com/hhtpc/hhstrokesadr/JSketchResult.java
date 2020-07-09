@@ -40,12 +40,12 @@ public class JSketchResult {
     }
 
     @Override public String toString() {
-        return "JSketchResult{" +
-            "nPointNum=" + nPointNum +
+        return "JSketchResult{" +"\n"+
+            ", nPartNum=" + nPartNum +"\n"+
+            ", partPoints=" + Arrays.toString(partPoints) +"\n"+
+            ", rect=" + Arrays.toString(rect) + "\n"+
+            "nPointNum=" + nPointNum + "\n"+
             ", points=" + Arrays.toString(points) +
-            ", nPartNum=" + nPartNum +
-            ", partPoints=" + Arrays.toString(partPoints) +
-            ", rect=" + Arrays.toString(rect) +
             '}';
     }
 }

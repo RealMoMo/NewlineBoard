@@ -22,4 +22,5 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation files('libs/com.visionobjects.myscript.shape.jar')
     implementation files('libs/com.visionobjects.myscript.engine.jar')
+    implementation project(path: ':hhtstrokelib')
 }

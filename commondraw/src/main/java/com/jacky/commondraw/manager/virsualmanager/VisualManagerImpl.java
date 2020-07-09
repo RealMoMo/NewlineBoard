@@ -75,8 +75,7 @@ public class VisualManagerImpl implements IVisualManager,
         // TODO Auto-generated method stub
         if (insertableObject == null)
             return null;
-        VisualElementBase visualElement = mHardInsertObjectCache
-                .get(insertableObject);
+        VisualElementBase visualElement = mHardInsertObjectCache.get(insertableObject);
         if (visualElement != null) {
             // 如果找到的话，把元素移到linkedhashmap的最前面，从而保证在LRU算法中是最后被删除
             mHardInsertObjectCache.remove(insertableObject);

@@ -17,6 +17,7 @@ import com.jacky.commondraw.visual.brush.VisualStrokeMarker;
 import com.jacky.commondraw.visual.brush.VisualStrokePath;
 import com.jacky.commondraw.visual.brush.VisualStrokePen;
 import com.jacky.commondraw.visual.brush.VisualStrokePencil;
+import com.jacky.commondraw.visual.brush.VisualStrokeSoftPen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,27 +38,31 @@ public class InsertableObjectStroke extends InsertableObjectBase {
     /**
      * 圆珠笔
      */
-    public static final int STROKE_TYPE_NORMAL = 1;// 圆珠笔
+    public static final int STROKE_TYPE_NORMAL = 1;
     /**
      * 钢笔
      */
-    public static final int STROKE_TYPE_PEN = 2;// 钢笔
+    public static final int STROKE_TYPE_PEN = 2;
     /**
      * 毛笔
      */
-    public static final int STROKE_TYPE_BRUSH = 3;// 毛笔
+    public static final int STROKE_TYPE_BRUSH = 3;
     /**
      * 铅笔
      */
-    public static final int STROKE_TYPE_PENCIL = 4;// 铅笔
+    public static final int STROKE_TYPE_PENCIL = 4;
     /**
      * 记号笔
      */
-    public static final int STROKE_TYPE_MARKER = 5;// 记号笔
+    public static final int STROKE_TYPE_MARKER = 5;
     /**
      * 喷枪
      */
-    public static final int STROKE_TYPE_AIRBRUSH = 6;// 喷枪
+    public static final int STROKE_TYPE_AIRBRUSH = 6;
+    /**
+     * 软笔
+     */
+    public static final int STOKRE_TYPE_SOFT_PEN = 7;
 
     public static final int PROPERTY_ID_STROKE_WIDTH = 101;
     public static final int PROPERTY_ID_STROKE_COLOR = 102;
@@ -111,6 +116,9 @@ public class InsertableObjectStroke extends InsertableObjectBase {
             case STROKE_TYPE_MARKER:
                 visualElement = new VisualStrokeMarker(context, internalDoodle,
                         this);
+                break;
+            case STOKRE_TYPE_SOFT_PEN:
+                visualElement = new VisualStrokeSoftPen(context, internalDoodle, this);
                 break;
             default:
                 break;
@@ -173,7 +181,7 @@ public class InsertableObjectStroke extends InsertableObjectBase {
     }
 
     public static boolean isSupported(int type) {
-        return type >= STROKE_TYPE_ERASER && type <= STROKE_TYPE_AIRBRUSH;
+        return type >= STROKE_TYPE_ERASER && type <= STOKRE_TYPE_SOFT_PEN;
     }
 
     @Override

@@ -13,7 +13,7 @@ import java.util.HashMap;
  */
 public class PropertyConfigStrokeUtils {
     private static int STROKE_TYPE_MIN = InsertableObjectStroke.STROKE_TYPE_ERASER;
-    private static int STROKE_TYPE_MAX = InsertableObjectStroke.STROKE_TYPE_AIRBRUSH;
+    private static int STROKE_TYPE_MAX = InsertableObjectStroke.STOKRE_TYPE_SOFT_PEN;
     private static HashMap<Integer, PropertyConfigStroke> sStrokeConfigs;
     static {
         sStrokeConfigs = new HashMap<Integer, PropertyConfigStroke>();

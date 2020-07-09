@@ -14,6 +14,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import com.gplibs.magicsurfaceview.MagicMultiSurface
 import com.gplibs.magicsurfaceview.MagicSurfaceView
 import com.gplibs.magicsurfaceview.MagicUpdaterListener
+import com.jacky.commondraw.views.doodleview.DoodleEnum
 import com.jacky.commondraw.views.doodleview.DoodleView
 import com.newline.borad.animation.magic.Direction
 import com.newline.borad.animation.magic.MultiScrapUpdater
@@ -114,7 +115,7 @@ class IdeaService : Service(), FloatBarTouchEvent, View.OnClickListener, View.On
         ivScale.setOnClickListener(this)
         ivExit.setOnClickListener(this)
 
-
+        scaleView.setOnTouchListener(this)
         scaleGestureDetector = ScaleGestureDetector(this,this)
     }
 
@@ -151,7 +152,7 @@ class IdeaService : Service(), FloatBarTouchEvent, View.OnClickListener, View.On
         when(v){
             ivScale->{
                 scaleView.visibility = View.VISIBLE
-                scaleView.setOnTouchListener(this)
+
             }
             ivExit->{
                 doodleView.newBitmap().let {
@@ -164,11 +165,6 @@ class IdeaService : Service(), FloatBarTouchEvent, View.OnClickListener, View.On
                     }
 
                 }
-
-
-
-
-
             }
         }
     }
