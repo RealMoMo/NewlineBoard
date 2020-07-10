@@ -8,18 +8,20 @@ import android.view.MotionEvent;
 /**
  * @author Realmo
  * @version 1.0.0
- * @name NewlineBoard
+ * @name HHTStrokelib
  * @email momo.weiye@gmail.com
  * @time 2020/7/7 9:16
- * @describe
+ * @describe  单例 HHTStrokePath，该类作用生成硬笔与软笔效果的Path(软笔有笔锋效果)。
+ * 由于是单例类，所以只支持单笔书写生成Path。
  */
 public class HHTStrokePath {
 
-    private static HHTStrokePath mInstance;
-    //硬笔
+    //硬笔类型
     private static final int TYPE_HEAD_PEN = 1;
-    //软笔
+    //软笔类型
     private static final int TYPE_SOFT_PEN = 2;
+
+    private static HHTStrokePath mInstance;
 
     private HHStrokesAdr strokesAdr;
     private int penType;
@@ -47,7 +49,18 @@ public class HHTStrokePath {
         tempPath = new Path();
     }
 
+    /**
+     * 设置Path的宽度px
+     * @param strokeWidth
+     */
+    public void setStrokeWidth(float strokeWidth){
+        penWidth = strokeWidth;
+    }
 
+    /**
+     * 设置Path的风格
+     * @param isHardPen 是否为硬笔效果
+     */
     public void setStrokeType(boolean isHardPen){
         if(isHardPen){
             penType = TYPE_HEAD_PEN;
@@ -56,17 +69,26 @@ public class HHTStrokePath {
         }
     }
 
-    public void touchDown(MotionEvent event){
+    /**
+     *
+     * @param event
+     * @return 是否成功初始化本画笔
+     */
+    public boolean touchDown(MotionEvent event){
         if(strokesAdr.initStroke(1.0f,1.0f,penWidth,penType)){
             strokesAdr.startCreate(event.getX(),event.getY(),event.getEventTime());
             path.reset();
-
+            return true;
         }
-
+        return false;
 
     }
 
-
+    /**
+     *
+     * @param event
+     * @return Path，该Path是该库的单例对象.所以，调用者应该是 path.set(touchMove(MotionEvent event))
+     */
     public Path touchMove(MotionEvent event){
         int length = event.getHistorySize()+1;
         float[] pointArray = new float[2*length];
@@ -86,7 +108,11 @@ public class HHTStrokePath {
         return makePath(result);
     }
 
-
+    /**
+     *
+     * @param event
+     * @return Path，该Path是该库的单例对象.所以，调用者应该是 path.set(touchUp(MotionEvent event))
+     */
     public Path touchUp(MotionEvent event){
         JSketchResult jSketchResult = strokesAdr.endCreate(event.getX(), event.getY(), event.getEventTime());
         Path temp = null;
@@ -104,8 +130,6 @@ public class HHTStrokePath {
 
             result.getUpdateRect();
 
-//            this.updateRect = result.getUpdateRect();
-//            curStrokeRect = updateRect;
             int pointNum = result.getPointsNum();
             float[] points = result.getPointsData();
             int partNum = result.getPartsNum();

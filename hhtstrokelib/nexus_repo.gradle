@@ -1,0 +1,54 @@
+apply plugin: 'maven'
+//javadoc {
+//    options{
+//        encoding 'UTF-8'
+//        charSet 'UTF-8'
+//        author true
+//    }
+//}
+//task androidJavadocs(type: Javadoc) {
+//    source = android.sourceSets.main.java.srcDirs
+//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//}
+//
+//task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+//    classifier = 'javadoc'
+//    from androidJavadocs.destinationDir
+//}
+
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+
+uploadArchives {
+
+     repositories {
+         mavenDeployer {
+
+             snapshotRepository(url: "http://192.168.45.202:8081/repository/maven-snapshots/") {
+                 authentication(userName: "admin", password: "newline")
+             }
+
+             repository(url: "http://192.168.45.202:8081/repository/maven-releases/") {
+                 authentication(userName: "admin", password: "newline")
+                 }
+           pom.project {
+                version '1.0.0'
+                artifactId 'path.stroke'
+                groupId 'com.newline.android'
+                packaging 'aar'
+                description 'Newline 书写笔锋库'
+
+
+                }
+
+             }
+       }
+}
