@@ -38,18 +38,7 @@ android {
         }
     }
 
-    buildTypes {
-        release {
-            minifyEnabled true
-            zipAlignEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.mstar
-        }
-        debug {
-            signingConfig signingConfigs.mstar
-        }
-    }
+
 
 
     //多渠道配置
@@ -69,6 +58,19 @@ android {
             variant.outputs.all {
                 outputFileName = "NewlineIdea_${variant.productFlavors[0].name}.apk"
             }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            //zipAlignEnabled true
+            //shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.v811
+        }
+        debug {
+            signingConfig signingConfigs.mstar
+        }
     }
 
 }

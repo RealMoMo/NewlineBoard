@@ -102,7 +102,6 @@ public class VisualStrokeSoftPen extends VisualStrokeBase {
         if (canvas == null){
             return;
         }
-        Log.d("realmo","draw");
         canvas.drawPath(mPath, mPaint);
     }
 

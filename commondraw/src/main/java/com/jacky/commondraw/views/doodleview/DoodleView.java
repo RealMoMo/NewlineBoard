@@ -37,6 +37,7 @@ import com.jacky.commondraw.shaperecognize.ShapeRecognizeOperation;
 import com.jacky.commondraw.shaperecognize.ShapeRecognizetionHelper;
 import com.jacky.commondraw.utils.ErrorUtil;
 import com.jacky.commondraw.utils.PropertyConfigStrokeUtils;
+import com.jacky.commondraw.views.doodleview.drawstrategy.DrawStrategy;
 import com.jacky.commondraw.views.doodleview.drawstrategy.RedrawStrategy;
 import com.jacky.commondraw.views.doodleview.opereation.DoodleOperation;
 import com.jacky.commondraw.views.doodleview.opereation.DrawAllOperation;
@@ -203,7 +204,6 @@ public class DoodleView  extends SurfaceView implements IInternalDoodle {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // TODO Auto-generated method stub
-
         boolean multiPoint = event.getPointerCount() > 1;
         if (multiPoint)
             return false;
@@ -457,6 +457,25 @@ public class DoodleView  extends SurfaceView implements IInternalDoodle {
         mShapeRecognizetionHelper.saveShapeResult(false);
         mModelManager.clearStokes();
         mCommandsManager.clear();
+    }
+
+    /**
+     * 刷新Canvas,正在书写的内容(未正式添加书写内容列表)不会显示
+     */
+    public void refresh(){
+        if(mFrameCache == null){
+            return;
+        }
+        if(mFrameCache.getBitmap()== null) {
+            return;
+        }
+        synchronized (mSurfaceHolder) {
+                Canvas canvas = mSurfaceHolder.lockCanvas();
+                canvas.drawBitmap(mFrameCache.getBitmap(), 0, 0, DrawStrategy.sBitmapPaint);
+                mSurfaceHolder.unlockCanvasAndPost(canvas);
+            }
+
+
     }
 
 

@@ -14,21 +14,9 @@
         android:id="@+id/doodleView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#8000" />
+        android:background="@drawable/note_bg"
+         />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iv_move"
-        app:srcCompat="@drawable/move"
-        android:layout_width="20dp"
-        android:layout_height="20dp"/>
-
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/iv_scale"
-        app:srcCompat="@drawable/zoom"
-        android:layout_width="20dp"
-        android:layout_height="20dp"/>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_gravity="end"
@@ -38,10 +26,7 @@
         android:layout_height="20dp"/>
 
 
-    <include
-        android:visibility="gone"
-        android:id="@+id/layout_scale"
-        layout="@layout/layout_scale"/>
+
 
 
 

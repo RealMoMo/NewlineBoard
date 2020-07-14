@@ -113,6 +113,7 @@ public class VisualStrokeErase extends VisualStrokePath {
         return super.onTouchEvent(event2);
     }
 
+    @Override
     protected void sendTouchOperation(MotionEvent motionEvent) {
         // TODO Auto-generated method stub
         EraseTouchOperation operation = new EraseTouchOperation(

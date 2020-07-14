@@ -3,6 +3,7 @@ package com.jacky.commondraw.manager.modelmager;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.jacky.commondraw.listeners.IClickedListener;

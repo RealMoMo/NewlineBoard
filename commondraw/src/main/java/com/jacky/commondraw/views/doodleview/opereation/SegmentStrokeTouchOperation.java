@@ -77,6 +77,7 @@ public class SegmentStrokeTouchOperation extends StrokeTouchOperation {
         canvas.drawBitmap(bitmap, 0, 0, DrawStrategy.sBitmapPaint);
     }
 
+    @Override
     protected DrawStrategy createDrawStrategy(Canvas canvas,
                                               FrameCache frameCache) {
         DrawStrategy drawStrategy = null;

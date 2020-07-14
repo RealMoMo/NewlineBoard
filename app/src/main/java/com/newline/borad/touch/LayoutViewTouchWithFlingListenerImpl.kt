@@ -5,8 +5,7 @@ import android.view.MotionEvent
 import android.view.VelocityTracker
 import android.view.View
 import android.widget.Scroller
-import com.newline.borad.touch.FloatBarTouchEvent
-import com.newline.borad.touch.LayoutViewTouchListenerImpl
+
 
 /**
  * @author Realmo

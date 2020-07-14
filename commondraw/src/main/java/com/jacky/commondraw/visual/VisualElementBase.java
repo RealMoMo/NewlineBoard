@@ -122,7 +122,7 @@ public abstract class VisualElementBase implements
     // */
     // protected abstract void sendDrawOperation(MotionEvent motionEvent);
     /**
-     * 返回添加时候的操作 默认的{@link AddedOperation}，将返回一个{@link AddedCommand}
+     * 返回添加时候的操作 默认的{@link AddedOperation}，将返回一个{@link AddedOperation}
      *
      * @return
      */
@@ -133,7 +133,7 @@ public abstract class VisualElementBase implements
     }
 
     /**
-     * 返回删除时候的操作 默认的{@link RemovedOperation}，将返回一个{@link RemovedCommond}
+     * 返回删除时候的操作 默认的{@link RemovedOperation}，将返回一个{@link AddedOperation}
      *
      * @return
      */
