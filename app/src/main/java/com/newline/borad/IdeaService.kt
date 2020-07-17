@@ -22,6 +22,7 @@ import com.newline.borad.widget.note.NoteWidget
  * @describe
  */
 class IdeaService : Service(),NoteWidget.NoteGestureListener, NoteWidget.NoteAnimationListener {
+
     private lateinit var mWindowManager: WindowManager
     private lateinit var mLayoutParams: WindowManager.LayoutParams
     private lateinit var noteView : NoteWidget
@@ -81,7 +82,7 @@ class IdeaService : Service(),NoteWidget.NoteGestureListener, NoteWidget.NoteAni
             object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
                     noteView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    //init postion coordinate
+                    //初始化位置坐标
                     val location = IntArray(2)
                     noteView.getLocationOnScreen(location)
                     mLayoutParams.x = location[0]
@@ -96,7 +97,9 @@ class IdeaService : Service(),NoteWidget.NoteGestureListener, NoteWidget.NoteAni
 
     private fun initView() {
         noteView = NoteWidget(this)
+        //设置手势监听
         noteView.setNoteGestureListener(this)
+        //设置动画监听
         noteView.setNoteAnimationListener(this)
 
     }

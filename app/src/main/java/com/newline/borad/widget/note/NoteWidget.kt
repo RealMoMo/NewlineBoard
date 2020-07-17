@@ -45,7 +45,7 @@ class NoteWidget : FrameLayout, View.OnClickListener {
     private var rawY = -1F
 
     private var velocityTracker: VelocityTracker? = null
-    //目前，考量y方向的加速度
+    //目前，只考量y方向的加速度
     private var minVelocity : Int
     private var vX:Float = 0F
     private var vY:Float = 0F
@@ -66,7 +66,6 @@ class NoteWidget : FrameLayout, View.OnClickListener {
         defStyleRes: Int
     ) : super(context, attrs, defStyleAttr, defStyleRes){
         LayoutInflater.from(context).inflate(R.layout.layout_note,this,true)
-//        minVelocity = context.resources.displayMetrics.widthPixels/9
         minVelocity = context.resources.displayMetrics.heightPixels/6
         initView()
     }
@@ -145,6 +144,10 @@ class NoteWidget : FrameLayout, View.OnClickListener {
         }
     }
 
+
+    /**
+     * 开始展开漩涡动画
+     */
     fun startShowVortexAnimation(){
         val updater = VortexAnimUpdater(false)
         updater.addListener(object : MagicUpdaterListener {
@@ -167,6 +170,9 @@ class NoteWidget : FrameLayout, View.OnClickListener {
         magicSurfaceView.render(s)
     }
 
+    /**
+     * 开始收起漩涡动画
+     */
     fun startHideVortexAnimation(){
         val updater = VortexAnimUpdater(true)
         updater.addListener(object : MagicUpdaterListener {
@@ -244,8 +250,6 @@ class NoteWidget : FrameLayout, View.OnClickListener {
                     return true
                 }
                 if(System.currentTimeMillis() - timeStamp <200){
-//                    lastX = ev.getX()
-//                    lastY = ev.getY()
                     isSelfTouch = true
                 }else{
                     isSelfTouch = false
@@ -263,11 +267,6 @@ class NoteWidget : FrameLayout, View.OnClickListener {
         rawY = event!!.getRawY()
 
         when(MotionEvent.ACTION_MASK and event!!.action){
-            MotionEvent.ACTION_POINTER_DOWN,MotionEvent.ACTION_DOWN->{
-//                lastX = event.getX()
-//                lastY = event.getY()
-
-            }
             MotionEvent.ACTION_MOVE->{
 
                 noteGestureListener?.windowMove((rawX-lastX).toInt(),(rawY-lastY).toInt())

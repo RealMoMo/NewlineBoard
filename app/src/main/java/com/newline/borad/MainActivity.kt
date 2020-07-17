@@ -29,8 +29,6 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun testWindowEffect(){
-        //setContentView(DisappearingDoodleView(this))
-
         val intent = Intent(this,IdeaService::class.java)
         startService(intent)
 
