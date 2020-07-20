@@ -18,7 +18,8 @@ import java.lang.annotation.RetentionPolicy;
 DrawOperation.MARKER_PEN,DrawOperation.HIGHTLIGHT_PEN,DrawOperation.EARSE,DrawOperation.ROLLBACK,DrawOperation.RECOVER,
 DrawOperation.CLEAR,DrawOperation.PRE_PAGE,DrawOperation.NEXT_PAGE,DrawOperation.ADD_PAGE,DrawOperation.PREVIEW_ALL,
 DrawOperation.PICTURE_NORMAL,DrawOperation.PICTURE_SVG,DrawOperation.SHAPE,DrawOperation.SHAPE_AI,
-DrawOperation.TEXT,DrawOperation.NOTE,DrawOperation.VIDEO,DrawOperation.PDF_FILE,DrawOperation.MARKDOWN_FILE,DrawOperation.FILE})
+DrawOperation.TEXT,DrawOperation.NOTE,DrawOperation.VIDEO,DrawOperation.PDF_FILE,DrawOperation.MARKDOWN_FILE,DrawOperation.FILE,
+DrawOperation.EXIT})
 @Retention(RetentionPolicy.SOURCE)
 public @interface DrawOperation {
     /**
@@ -117,6 +118,10 @@ public @interface DrawOperation {
      * 其他常用办公文件 txt/doc/ppt/etc...
      */
     int FILE = PENCIL+23;
+    /**
+     * 退出
+     */
+    int EXIT = PENCIL+100;
 
 
 }

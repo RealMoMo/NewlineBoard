@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="#f00">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_pen"
+        app:srcCompat="@drawable/pen"
+        android:layout_width="64dp"
+        android:layout_height="64dp"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_highlightpen"
+        app:srcCompat="@drawable/highlightpen"
+        android:layout_width="64dp"
+        android:layout_height="64dp"/>
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_earse"
+        app:srcCompat="@drawable/earse"
+        android:layout_width="64dp"
+        android:layout_height="64dp"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_rollback"
+        app:srcCompat="@drawable/rollback"
+        android:layout_width="64dp"
+        android:layout_height="64dp"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_recover"
+        app:srcCompat="@drawable/recover"
+        android:layout_width="64dp"
+        android:layout_height="64dp"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_clear"
+        app:srcCompat="@drawable/clear"
+        android:layout_width="64dp"
+        android:layout_height="64dp"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_exit"
+        app:srcCompat="@drawable/quit"
+        android:layout_width="64dp"
+        android:layout_height="64dp"/>
+
+
+
+</LinearLayout>

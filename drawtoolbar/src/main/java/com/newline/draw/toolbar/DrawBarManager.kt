@@ -1,8 +1,10 @@
 package com.newline.draw.toolbar
 
 import android.content.Context
-import android.widget.LinearLayout
-import com.newline.draw.toolbar.widget.DrawBarLayout
+import com.newline.draw.toolbar.listeners.DrawEventListener
+import com.newline.draw.toolbar.widget.BaseDrawBarLayout
+import com.newline.draw.toolbar.widget.HorizontalDrawBarLayout
+import com.newline.draw.toolbar.widget.VerticalDrawBarLayout
 
 /**
  * @name NewlineBoard
@@ -15,31 +17,44 @@ import com.newline.draw.toolbar.widget.DrawBarLayout
 class DrawBarManager(context: Context) {
 
     private var mContext : Context?=null
-    var drawBarLayout: DrawBarLayout
+    private var horizontalDrawBarLayout: HorizontalDrawBarLayout
+    private var verticalDrawBarLayout: VerticalDrawBarLayout
 
-
+    private var currentDrawBarLayout : BaseDrawBarLayout?=null
 
     init {
         mContext = context
-        drawBarLayout = DrawBarLayout(mContext!!)
+        horizontalDrawBarLayout = HorizontalDrawBarLayout(mContext!!)
+        verticalDrawBarLayout = VerticalDrawBarLayout(mContext!!)
     }
 
     /**
      * 设置DrawBar布局排列方向
+     * @param isVertical
+     * @return BaseDrawBarLayout
      */
-    fun setDrawBarOrientation(isVertical : Boolean){
+    fun setDrawBarOrientation(isVertical : Boolean): BaseDrawBarLayout {
         if (isVertical){
-            drawBarLayout.orientation = LinearLayout.VERTICAL
+            currentDrawBarLayout = verticalDrawBarLayout
         }else{
-            drawBarLayout.orientation = LinearLayout.HORIZONTAL
+            currentDrawBarLayout = horizontalDrawBarLayout
         }
+        return currentDrawBarLayout!!
+    }
+
+    fun getDrawBarLayout(): BaseDrawBarLayout{
+        if(currentDrawBarLayout == null){
+            currentDrawBarLayout = horizontalDrawBarLayout
+        }
+        return currentDrawBarLayout!!
     }
 
     /**
      * 设置DrawBar 事件监听
      */
-    fun setDrawBarEventListener(drawEventListener : DrawBarLayout.DrawEventListener){
-        drawBarLayout.setDrawEventListener(drawEventListener)
+    fun setDrawBarEventListener(drawEventListener : DrawEventListener){
+        horizontalDrawBarLayout.setDrawEventListener(drawEventListener)
+        verticalDrawBarLayout.setDrawEventListener(drawEventListener)
     }
 
 
@@ -49,7 +64,8 @@ class DrawBarManager(context: Context) {
     fun release(){
 
         mContext = null
-        drawBarLayout.release()
+        horizontalDrawBarLayout.release()
+        verticalDrawBarLayout.release()
 
     }
 

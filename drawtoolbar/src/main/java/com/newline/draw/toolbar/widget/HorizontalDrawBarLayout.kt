@@ -4,10 +4,9 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.LinearLayout
 import com.newline.draw.toolbar.R
 import com.newline.draw.toolbar.data.DrawOperation
-import kotlinx.android.synthetic.main.layout_drawbar.view.*
+import kotlinx.android.synthetic.main.layout_horizontal_drawbar.view.*
 
 /**
  * @name NewlineBoard
@@ -18,40 +17,10 @@ import kotlinx.android.synthetic.main.layout_drawbar.view.*
  * @describe
  */
 
-class DrawBarLayout : LinearLayout, View.OnClickListener, View.OnLongClickListener {
-
-    /**
-     * DrawBarLayout 事件监听接口
-     */
-    interface DrawEventListener {
-
-        /**
-         * DrawBarLayout ItemView 点击事件
-         * @param barLayout
-         * @param clickView  : 被点击的控件
-         * @param operation  : Draw操作意图类型
-         */
-        fun onDrawBarItemClick(
-            barLayout: DrawBarLayout,
-            clickView: View,
-            @DrawOperation operation: Int
-        )
-
-        /**
-         * DrawBarLayout ItemView 长按点击事件
-         * @param barLayout
-         * @param longClickView  : 被长按点击的控件
-         * @param operation  : Draw操作意图类型
-         */
-        fun onDrawBarItemLongClick(
-            barLayout: DrawBarLayout,
-            longClickView: View,
-            @DrawOperation operation: Int
-        )
-    }
+class HorizontalDrawBarLayout : BaseDrawBarLayout, View.OnClickListener, View.OnLongClickListener {
 
 
-    private var eventListener: DrawEventListener? = null
+
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -72,15 +41,9 @@ class DrawBarLayout : LinearLayout, View.OnClickListener, View.OnLongClickListen
         initDrawOperationData()
     }
 
-
-    fun setDrawEventListener(drawEventListener: DrawEventListener) {
-        eventListener = drawEventListener
+    override fun inflateBarLayout() {
+        LayoutInflater.from(context).inflate(R.layout.layout_horizontal_drawbar, this, true)
     }
-
-    fun release(){
-        eventListener =null
-    }
-
 
     override fun onClick(v: View?) {
         v?.let {
@@ -98,12 +61,14 @@ class DrawBarLayout : LinearLayout, View.OnClickListener, View.OnLongClickListen
 
 
     private fun initView() {
-        LayoutInflater.from(context).inflate(R.layout.layout_drawbar, this, true)
+
         iv_pen.setOnClickListener(this)
         iv_highlightpen.setOnClickListener(this)
         iv_earse.setOnClickListener(this)
         iv_rollback.setOnClickListener(this)
         iv_recover.setOnClickListener(this)
+        iv_clear.setOnClickListener(this)
+        iv_exit.setOnClickListener(this)
 
         iv_pen.setOnLongClickListener(this)
         iv_highlightpen.setOnLongClickListener(this)
@@ -119,6 +84,8 @@ class DrawBarLayout : LinearLayout, View.OnClickListener, View.OnLongClickListen
         iv_earse.tag = DrawOperation.EARSE
         iv_rollback.tag = DrawOperation.ROLLBACK
         iv_recover.tag = DrawOperation.RECOVER
+        iv_clear.tag = DrawOperation.CLEAR
+        iv_exit.tag = DrawOperation.EXIT
     }
 
 
