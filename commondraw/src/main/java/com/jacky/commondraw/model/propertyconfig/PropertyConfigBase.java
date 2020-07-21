@@ -33,7 +33,7 @@ public class PropertyConfigBase {
         }
     }
 
-    public void remoceExtraProperty(String key) {
+    public void removeExtraProperty(String key) {
         Object oldValue = mExtraProperties.get(key);
         if (oldValue != null) {
             mExtraProperties.remove(key);

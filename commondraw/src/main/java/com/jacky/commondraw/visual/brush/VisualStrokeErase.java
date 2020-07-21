@@ -1,12 +1,16 @@
 package com.jacky.commondraw.visual.brush;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 
+import com.jacky.commondraw.R;
 import com.jacky.commondraw.model.InsertableObjectBase;
 import com.jacky.commondraw.views.doodleview.IInternalDoodle;
 import com.jacky.commondraw.visual.brush.operation.EraseTouchOperation;
@@ -20,11 +24,35 @@ import java.util.List;
  * 橡皮擦
  */
 public class VisualStrokeErase extends VisualStrokePath {
+    private DashPathEffect mEffects = null;
+    private Paint mPaintIndicator = null;
+    private boolean isUp = false;
 
     public VisualStrokeErase(Context context, IInternalDoodle internalDoodle,
                              InsertableObjectBase object) {
         super(context, internalDoodle, object);
         // TODO Auto-generated constructor stub
+        mEffects = new DashPathEffect(new float[] {5, 5, 5, 5}, 1);
+
+        mPaintIndicator = new Paint();
+        mPaintIndicator.setDither(true);
+        mPaintIndicator.setAntiAlias(true);
+        mPaintIndicator.setStyle(Paint.Style.STROKE);
+        mPaintIndicator.setColor(Color.parseColor("#1296db"));
+        mPaintIndicator.setPathEffect(mEffects);
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        if (canvas == null){
+            return;
+        }
+        canvas.drawPath(mPath, mPaint);
+
+        if(isUp){
+            return;
+        }
+        canvas.drawCircle(mEndX,mEndY,mInsertableObjectStroke.getStrokeWidth()/2,mPaintIndicator);
     }
 
     @Override
@@ -98,6 +126,7 @@ public class VisualStrokeErase extends VisualStrokePath {
                 sendTouchOperation(event2);
                 return true;
             case MotionEvent.ACTION_UP:
+                isUp = true;
                 onUp(createMotionElement(event2));
                 sendTouchOperation(event2);
                 mInsertableObjectStroke.setPoints(getPoints());// up的时候，给模型层设置数据
