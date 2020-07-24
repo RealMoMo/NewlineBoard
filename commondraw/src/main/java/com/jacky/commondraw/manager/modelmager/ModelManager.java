@@ -99,7 +99,11 @@ public class ModelManager implements IModelManager,
         if (mIInternalDoodle.getSelectionMode() == DoodleEnum.SelectionMode.SELECTION) {
             return handleSelectionMode(event);
         } else {
-            return handleNoneMode(event);
+            if(event.getToolType(0) == MotionEvent.TOOL_TYPE_ERASER){
+                    return handlePhysicEraseMode(event);
+            }else{
+                return handleNoneMode(event);
+            }
         }
     }
 
@@ -171,6 +175,52 @@ public class ModelManager implements IModelManager,
     private boolean handleSelectionMode(MotionEvent event) {
         mLongClickDetector.onTouch(MotionEvent.obtain(event));
         return true;
+    }
+
+
+    private boolean handlePhysicEraseMode(MotionEvent event){
+        mLongClickDetector.onTouch(MotionEvent.obtain(event));
+        switch (event.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+                InsertableObjectStroke stroke = InsertableObjectStroke
+                        .newInsertableObjectStroke(InsertableObjectStroke.STROKE_TYPE_ERASER);
+                mActingInsertableObject = stroke;
+                break;
+            default:
+                break;
+        }
+
+        boolean b = false;
+        for (ITouchEventListener listener : mTouchEventListeners) {
+            if (listener.onTouchEvent(event, mActingInsertableObject)) {
+                b = true;
+                break;
+            }
+        }
+
+        switch (event.getActionMasked()) {
+            case MotionEvent.ACTION_UP:
+                if (mActingInsertableObject != null) {
+                    if (!(mActingInsertableObject instanceof InsertableObjectStroke))
+                        break;
+                    InsertableObjectStroke stroke = (InsertableObjectStroke) mActingInsertableObject;
+
+                        VisualElementBase visualElement = mIInternalDoodle
+                                .getVisualManager().getVisualElement(
+                                        mActingInsertableObject);
+                        VisualStrokeErase visualStrokeEarse = (VisualStrokeErase) visualElement;
+                        if (visualStrokeEarse.intersects()) {
+                            addInsertableObjectInternal(mActingInsertableObject,
+                                    false, false);
+                        }
+
+                }
+                mActingInsertableObject = null;
+                break;
+            default:
+                break;
+        }
+        return b;
     }
 
     @Override

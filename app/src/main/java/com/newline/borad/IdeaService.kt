@@ -25,13 +25,13 @@ import kotlinx.android.synthetic.main.layout_note.view.*
  * @time 2020/7/2 16:14
  * @describe
  */
-class IdeaService : Service(),NoteWidget.NoteGestureListener, NoteWidget.NoteAnimationListener,
-    DrawEventListener {
+class IdeaService : Service(),NoteWidget.NoteGestureListener, NoteWidget.NoteAnimationListener
+     {
 
     private lateinit var mWindowManager: WindowManager
     private lateinit var mLayoutParams: WindowManager.LayoutParams
     private lateinit var noteView : NoteWidget
-    private lateinit var drawBarManager: DrawBarManager
+    //private lateinit var drawBarManager: DrawBarManager
 
     /**
      * NoteView 最小宽度
@@ -81,11 +81,11 @@ class IdeaService : Service(),NoteWidget.NoteGestureListener, NoteWidget.NoteAni
             mLayoutParams.gravity = Gravity.CENTER
             mWindowManager.addView(noteView,mLayoutParams)
 
-            //TODO realmo test
-            mLayoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT
-            mLayoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT
-            mWindowManager.addView(drawBarManager.setDrawBarOrientation(true),mLayoutParams)
-            //============
+//            //TODO realmo test
+//            mLayoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT
+//            mLayoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT
+//            mWindowManager.addView(drawBarManager.setDrawBarOrientation(true),mLayoutParams)
+//            //============
 
             mLayoutParams.gravity = Gravity.START or Gravity.TOP
 
@@ -142,8 +142,8 @@ class IdeaService : Service(),NoteWidget.NoteGestureListener, NoteWidget.NoteAni
         noteView.setNoteAnimationListener(this)
 
 
-        drawBarManager = DrawBarManager(this)
-        drawBarManager.setDrawBarEventListener(this)
+//        drawBarManager = DrawBarManager(this)
+//        drawBarManager.setDrawBarEventListener(this)
 
     }
 
@@ -151,7 +151,7 @@ class IdeaService : Service(),NoteWidget.NoteGestureListener, NoteWidget.NoteAni
         super.onDestroy()
         isAddView = false
         mWindowManager.removeView(noteView)
-        mWindowManager.removeView(drawBarManager.getDrawBarLayout())
+        //mWindowManager.removeView(drawBarManager.getDrawBarLayout())
     }
 
     override fun windowMove(x: Int, y: Int) {
@@ -201,43 +201,43 @@ class IdeaService : Service(),NoteWidget.NoteGestureListener, NoteWidget.NoteAni
     private fun tempExit(){
         isAddView = false
         mWindowManager.removeViewImmediate(noteView)
-        mWindowManager.removeViewImmediate(drawBarManager.getDrawBarLayout())
+        //mWindowManager.removeViewImmediate(drawBarManager.getDrawBarLayout())
     }
 
-    override fun onDrawBarItemClick(barLayout: BaseDrawBarLayout, clickView: View, operation: Int) {
-        when(operation){
-            DrawOperation.SOFT_PEN_WITH_STROKE->{
-                noteView.doodleView.inputMode = DoodleEnum.InputMode.DRAW
-                noteView.doodleView.strokeType = InsertableObjectStroke.STOKRE_TYPE_SOFT_PEN
-            }
-            DrawOperation.HIGHTLIGHT_PEN->{
-                noteView.doodleView.inputMode = DoodleEnum.InputMode.DRAW
-                noteView.doodleView.strokeType = InsertableObjectStroke.STROKE_TYPE_AIRBRUSH
-            }
-            DrawOperation.EARSE->{
-                noteView.doodleView.inputMode = DoodleEnum.InputMode.ERASE
-            }
-            DrawOperation.ROLLBACK->{
-                noteView.doodleView.undo()
-            }
-            DrawOperation.RECOVER->{
-                noteView.doodleView.redo()
-            }
-            DrawOperation.CLEAR->{
-                noteView.doodleView.clear()
-            }
-            DrawOperation.EXIT->{
-                noteView.startHideNoteAnimation()
-            }
-        }
-    }
-
-    override fun onDrawBarItemLongClick(
-        barLayout: BaseDrawBarLayout,
-        longClickView: View,
-        operation: Int
-    ) {
-    }
+//    override fun onDrawBarItemClick(barLayout: BaseDrawBarLayout, clickView: View, operation: Int) {
+//        when(operation){
+//            DrawOperation.SOFT_PEN_WITH_STROKE->{
+//                noteView.doodleView.inputMode = DoodleEnum.InputMode.DRAW
+//                noteView.doodleView.strokeType = InsertableObjectStroke.STOKRE_TYPE_SOFT_PEN
+//            }
+//            DrawOperation.HIGHTLIGHT_PEN->{
+//                noteView.doodleView.inputMode = DoodleEnum.InputMode.DRAW
+//                noteView.doodleView.strokeType = InsertableObjectStroke.STROKE_TYPE_AIRBRUSH
+//            }
+//            DrawOperation.EARSE->{
+//                noteView.doodleView.inputMode = DoodleEnum.InputMode.ERASE
+//            }
+//            DrawOperation.ROLLBACK->{
+//                noteView.doodleView.undo()
+//            }
+//            DrawOperation.RECOVER->{
+//                noteView.doodleView.redo()
+//            }
+//            DrawOperation.CLEAR->{
+//                noteView.doodleView.clear()
+//            }
+//            DrawOperation.EXIT->{
+//                noteView.startHideNoteAnimation()
+//            }
+//        }
+//    }
+//
+//    override fun onDrawBarItemLongClick(
+//        barLayout: BaseDrawBarLayout,
+//        longClickView: View,
+//        operation: Int
+//    ) {
+//    }
 
 
 }
