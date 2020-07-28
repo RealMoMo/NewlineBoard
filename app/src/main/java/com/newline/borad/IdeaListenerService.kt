@@ -29,6 +29,7 @@ class IdeaListenerService : Service() {
         newlineBroadcast = NewlineBroadcast()
         val intentFilter = IntentFilter()
         intentFilter.addAction("com.ist.broadcast.system.Gestures")
+        intentFilter.addAction("com.android.internal.action.swipe.from.bottom2")
         registerReceiver(newlineBroadcast,intentFilter)
     }
 

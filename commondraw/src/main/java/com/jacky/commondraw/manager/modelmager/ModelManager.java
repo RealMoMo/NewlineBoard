@@ -183,7 +183,7 @@ public class ModelManager implements IModelManager,
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
                 InsertableObjectStroke stroke = InsertableObjectStroke
-                        .newInsertableObjectStroke(InsertableObjectStroke.STROKE_TYPE_ERASER);
+                        .newInsertableObjectStroke(InsertableObjectStroke.STROKE_TYPE_PHYS_ERASER);
                 mActingInsertableObject = stroke;
                 break;
             default:

@@ -17,6 +17,7 @@ import com.jacky.commondraw.visual.brush.VisualStrokeMarker;
 import com.jacky.commondraw.visual.brush.VisualStrokePath;
 import com.jacky.commondraw.visual.brush.VisualStrokePen;
 import com.jacky.commondraw.visual.brush.VisualStrokePencil;
+import com.jacky.commondraw.visual.brush.VisualStrokePhysicErase;
 import com.jacky.commondraw.visual.brush.VisualStrokeSoftPen;
 
 import java.util.ArrayList;
@@ -63,6 +64,11 @@ public class InsertableObjectStroke extends InsertableObjectBase {
      * 软笔
      */
     public static final int STOKRE_TYPE_SOFT_PEN = 7;
+
+    /**
+     * 板擦
+     */
+    public static final int STROKE_TYPE_PHYS_ERASER = 8;
 
     public static final int PROPERTY_ID_STROKE_WIDTH = 101;
     public static final int PROPERTY_ID_STROKE_COLOR = 102;
@@ -119,6 +125,9 @@ public class InsertableObjectStroke extends InsertableObjectBase {
                 break;
             case STOKRE_TYPE_SOFT_PEN:
                 visualElement = new VisualStrokeSoftPen(context, internalDoodle, this);
+                break;
+            case STROKE_TYPE_PHYS_ERASER:
+                visualElement = new VisualStrokePhysicErase(context, internalDoodle, this);
                 break;
             default:
                 break;
@@ -181,13 +190,13 @@ public class InsertableObjectStroke extends InsertableObjectBase {
     }
 
     public static boolean isSupported(int type) {
-        return type >= STROKE_TYPE_ERASER && type <= STOKRE_TYPE_SOFT_PEN;
+        return type >= STROKE_TYPE_ERASER && type <= STROKE_TYPE_PHYS_ERASER;
     }
 
     @Override
     public boolean canErased() {
         // TODO Auto-generated method stub
-        if (mStrokeType == STROKE_TYPE_ERASER)
+        if (mStrokeType == STROKE_TYPE_ERASER || mStrokeType  == STROKE_TYPE_PHYS_ERASER)
             return false;
         return true;
     }

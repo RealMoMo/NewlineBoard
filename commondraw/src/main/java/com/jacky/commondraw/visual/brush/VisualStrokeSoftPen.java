@@ -22,7 +22,7 @@ import java.util.List;
  * @name NewlineBoard
  * @email momo.weiye@gmail.com
  * @time 2020/7/8 16:16
- * @describe
+ * @describe  软笔带笔锋效果 用hht笔锋so库生成path
  */
 public class VisualStrokeSoftPen extends VisualStrokeBase {
 
