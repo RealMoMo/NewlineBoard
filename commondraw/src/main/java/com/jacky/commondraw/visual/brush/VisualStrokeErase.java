@@ -24,9 +24,9 @@ import java.util.List;
  * 橡皮擦
  */
 public class VisualStrokeErase extends VisualStrokePath {
-    private DashPathEffect mEffects = null;
-    private Paint mPaintIndicator = null;
-    private boolean isUp = false;
+    protected DashPathEffect mEffects = null;
+    protected Paint mPaintIndicator = null;
+    protected boolean isUp = false;
 
     public VisualStrokeErase(Context context, IInternalDoodle internalDoodle,
                              InsertableObjectBase object) {
