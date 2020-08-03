@@ -9,6 +9,7 @@ import android.graphics.Region;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import com.hhtpc.hhstrokesadr.HHTMutilStrokePath;
 import com.hhtpc.hhstrokesadr.HHTStrokePath;
 import com.jacky.commondraw.model.InsertableObjectBase;
 import com.jacky.commondraw.model.stroke.StylusPoint;
@@ -69,7 +70,6 @@ public class VisualStrokeSoftPen extends VisualStrokeBase {
             MotionEvent event2 = MotionEvent.obtain(event);
             switch (event.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
-
                     HHTStrokePath.getInstance().touchDown(event2);
 
                     sendTouchOperation(event2);

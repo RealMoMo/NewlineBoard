@@ -22,5 +22,5 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation files('libs/com.visionobjects.myscript.shape.jar')
     implementation files('libs/com.visionobjects.myscript.engine.jar')
-    implementation project(path: ':hhtstrokelib')
+    implementation 'com.newline.android:path.stroke:1.1.0'
 }
