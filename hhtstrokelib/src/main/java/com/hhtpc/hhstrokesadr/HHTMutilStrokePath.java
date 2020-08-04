@@ -12,15 +12,11 @@ import android.view.MotionEvent;
  * @name HHTStrokelib
  * @email momo.weiye@gmail.com
  * @time 2020/7/7 9:16
- * @describe  单例 HHTStrokePath，该类作用生成硬笔与软笔效果的Path(软笔有笔锋效果)。
+ * @describe  单例 HHTStrokePath，该类作用生成硬笔与软笔效果的Path(软笔有笔锋效果,硬笔效果不明显)。
  * 支持多笔书写生成Path。
  */
-public class HHTMutilStrokePath {
+public final class HHTMutilStrokePath {
 
-    //硬笔类型
-    private static final int TYPE_HEAD_PEN = 1;
-    //软笔类型
-    private static final int TYPE_SOFT_PEN = 2;
 
     private static HHTMutilStrokePath mInstance;
 
@@ -42,7 +38,17 @@ public class HHTMutilStrokePath {
     }
 
 
-    public boolean touchDown(float x,float y,int touchId,long eventTime,float penWidth,int penType){
+    /**
+     *
+     * @param x
+     * @param y
+     * @param touchId
+     * @param eventTime
+     * @param penWidth
+     * @param penType
+     * @return 是否成功初始化本画笔
+     */
+    public boolean touchDown(float x,float y,int touchId,long eventTime,float penWidth,@HHTStrokePathType int penType){
         if(pathArray.get(touchId) == null){
             pathArray.put(touchId,new StrokePath());
         }
@@ -57,19 +63,25 @@ public class HHTMutilStrokePath {
     }
 
 
-    public Path touchMove(MotionEvent event,int touchId){
+    /**
+     *
+     * @param event
+     * @param touchId
+     * @param touchIndex
+     * @return Path，该Path是该库的单例对象.所以，调用者应该是 path.set(touchMove(MotionEvent event))
+     */
+    public Path touchMove(MotionEvent event,int touchId,int touchIndex){
         int length = event.getHistorySize()+1;
         float[] pointArray = new float[2*length];
         long[] timeArray = new long[length];
-
         for (int i = 0; i < length-1; i++) {
-            pointArray[2*i] = event.getHistoricalX(touchId,i);
-            pointArray[2*i+1] = event.getHistoricalY(touchId,i);
+            pointArray[2*i] = event.getHistoricalX(touchIndex,i);
+            pointArray[2*i+1] = event.getHistoricalY(touchIndex,i);
             timeArray[i] = event.getHistoricalEventTime(i);
         }
 
-        pointArray[pointArray.length-2] = event.getX();
-        pointArray[pointArray.length-1] = event.getY();
+        pointArray[pointArray.length-2] = event.getX(touchIndex);
+        pointArray[pointArray.length-1] = event.getY(touchIndex);
         timeArray[timeArray.length-1] = event.getEventTime();
 
         StrokePath strokePath = pathArray.get(touchId);
@@ -78,6 +90,14 @@ public class HHTMutilStrokePath {
         return strokePath.path;
     }
 
+    /**
+     *
+     * @param x
+     * @param y
+     * @param touchId
+     * @param eventTime
+     * @return Path，该Path是该库的单例对象.所以，调用者应该是 path.set(touchMove(MotionEvent event))
+     */
     public Path touchUp(float x,float y,int touchId,long eventTime){
         StrokePath strokePath = pathArray.get(touchId);
         JSketchResult jSketchResult = strokePath.hhStrokesAdr.endCreate(x, y, eventTime);

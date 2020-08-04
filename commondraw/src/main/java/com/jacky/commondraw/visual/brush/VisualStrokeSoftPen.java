@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 
 import com.hhtpc.hhstrokesadr.HHTMutilStrokePath;
 import com.hhtpc.hhstrokesadr.HHTStrokePath;
+import com.hhtpc.hhstrokesadr.HHTStrokePathType;
 import com.jacky.commondraw.model.InsertableObjectBase;
 import com.jacky.commondraw.model.stroke.StylusPoint;
 import com.jacky.commondraw.views.doodleview.IInternalDoodle;
@@ -70,7 +71,7 @@ public class VisualStrokeSoftPen extends VisualStrokeBase {
             MotionEvent event2 = MotionEvent.obtain(event);
             switch (event.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
-                    HHTStrokePath.getInstance().touchDown(event2);
+                    HHTStrokePath.getInstance().touchDown(event2,mInsertableObjectStroke.getStrokeWidth(), HHTStrokePathType.TYPE_SOFTPEN);
 
                     sendTouchOperation(event2);
                     return true;
