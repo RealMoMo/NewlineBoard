@@ -6,9 +6,13 @@ import android.content.Intent
 import android.graphics.PixelFormat
 import android.os.Build
 import android.os.IBinder
+import android.util.Log
 import android.view.*
 import com.jacky.commondraw.model.stroke.InsertableObjectStroke
 import com.jacky.commondraw.views.doodleview.DoodleEnum
+import com.newline.borad.utils.BitmapUtils
+import com.newline.borad.utils.ScreenAdapterUtils
+import com.newline.borad.widget.note.FakeNoteWidget
 import com.newline.borad.widget.note.NoteWidget
 import com.newline.draw.toolbar.DrawBarManager
 import com.newline.draw.toolbar.data.DrawOperation
@@ -25,26 +29,25 @@ import kotlinx.android.synthetic.main.layout_note.view.*
  * @time 2020/7/2 16:14
  * @describe
  */
-class IdeaService : Service(),NoteWidget.NoteGestureListener, NoteWidget.NoteAnimationListener
-     {
+class IdeaService : Service(), FakeNoteWidget.NoteGestureListener,
+    FakeNoteWidget.NoteEventListener {
 
     private lateinit var mWindowManager: WindowManager
     private lateinit var mLayoutParams: WindowManager.LayoutParams
-    private lateinit var noteView : NoteWidget
+    private lateinit var noteView : FakeNoteWidget
     //private lateinit var drawBarManager: DrawBarManager
 
     /**
      * NoteView 最小宽度
      */
     private val ideaMinWidth :Int by lazy {
-        (resources.displayMetrics.widthPixels /2.5f).toInt()
+        (resources.displayMetrics.widthPixels /2.5f).toInt()*2
     }
-
     /**
      * NoteView 最小高度
      */
     private val ideaMinHeight :Int by lazy {
-        (resources.displayMetrics.heightPixels /1.25f).toInt()
+        (resources.displayMetrics.heightPixels /1.25f).toInt()*2
     }
 
     /**
@@ -57,6 +60,9 @@ class IdeaService : Service(),NoteWidget.NoteGestureListener, NoteWidget.NoteAni
      */
     private var ideaHeight : Int = 0
 
+    private var maxX : Int = 0
+    private var maxY : Int = 0
+
     /**
      * WindowManager是否添加了View标记
      */
@@ -68,6 +74,7 @@ class IdeaService : Service(),NoteWidget.NoteGestureListener, NoteWidget.NoteAni
 
     override fun onCreate() {
         super.onCreate()
+        ScreenAdapterUtils.setOtherScreenAdapter(this)
         initView()
         initWindowManager()
     }
@@ -85,7 +92,6 @@ class IdeaService : Service(),NoteWidget.NoteGestureListener, NoteWidget.NoteAni
 
             mLayoutParams.gravity = Gravity.START or Gravity.TOP
 
-
             noteView.viewTreeObserver.addOnGlobalLayoutListener(
                 object : ViewTreeObserver.OnGlobalLayoutListener {
                     override fun onGlobalLayout() {
@@ -93,8 +99,9 @@ class IdeaService : Service(),NoteWidget.NoteGestureListener, NoteWidget.NoteAni
                         //初始化位置坐标
                         val location = IntArray(2)
                         noteView.getLocationOnScreen(location)
-                        mLayoutParams.x = location[0]
-                        mLayoutParams.y = location[1]
+                        mLayoutParams.x = location[0]/2
+                        mLayoutParams.y = location[1]/2
+                        mWindowManager.updateViewLayout(noteView,mLayoutParams)
 
 
                     }
@@ -102,7 +109,6 @@ class IdeaService : Service(),NoteWidget.NoteGestureListener, NoteWidget.NoteAni
                 }
             )
 
-            noteView.startShowNoteAnimation()
         }
         
         return super.onStartCommand(intent, flags, startId)
@@ -125,16 +131,17 @@ class IdeaService : Service(),NoteWidget.NoteGestureListener, NoteWidget.NoteAni
         mLayoutParams.width = ideaWidth
         mLayoutParams.height = ideaHeight
 
-
+        maxX = resources.displayMetrics.widthPixels*2-ideaWidth
+        maxY = resources.displayMetrics.heightPixels*2-ideaHeight
 
     }
 
     private fun initView() {
-        noteView = NoteWidget(this)
+        noteView = FakeNoteWidget(this)
         //设置手势监听
         noteView.setNoteGestureListener(this)
         //设置动画监听
-        noteView.setNoteAnimationListener(this)
+        noteView.setNoteEventListener(this)
 
 
     }
@@ -147,56 +154,45 @@ class IdeaService : Service(),NoteWidget.NoteGestureListener, NoteWidget.NoteAni
     }
 
     override fun windowMove(x: Int, y: Int) {
+        Log.d("realmo","x:"+x)
+        Log.d("realmo","y:"+y)
+        if(x>maxX){
+            mLayoutParams.x = maxX/2
+        }else{
+            mLayoutParams.x = x/2
+        }
 
-        mLayoutParams.x = x
-        mLayoutParams.y = y
+        if(y>maxY){
+            mLayoutParams.y = maxY/2
+        }else{
+            mLayoutParams.y = y/2
+        }
+//        mLayoutParams.x = x/2
+//        mLayoutParams.y = y/2
 
         mWindowManager.updateViewLayout(noteView,mLayoutParams)
     }
 
     override fun fling(velocityX: Float, velocityY: Float) {
         if(velocityY > 0){
-            noteView.startHideVortexAnimation()
+           tempExit()
         }
 
     }
 
-    override fun showAnimationStart() {
-    }
 
-    override fun showAnimationEnd() {
-    }
-
-    override fun hideAnimationStart() {
-    }
-
-    override fun hideAnimationEnd() {
-        //TODO save idea content in workthread then to stopself service
-
-        //tempExit()
-
-        stopSelf()
-    }
-
-    override fun hideVortexAnimationStart() {
-    }
-
-    override fun hideVortexAnimationEnd() {
-        //TODO save idea content in workthread then to stopself service
-
-        tempExit()
-
-        //stopSelf()
-    }
-    
-    
     private fun tempExit(){
         isAddView = false
         mWindowManager.removeViewImmediate(noteView)
 
     }
 
+    override fun noteExit() {
+        //TODO save idea content in workthread then to stopself service
+        BitmapUtils.saveBitmap(noteView.getNoteContent(true),"test.png")
 
+        stopSelf()
+    }
 
 
 }
