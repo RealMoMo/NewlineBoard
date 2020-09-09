@@ -11,21 +11,15 @@ import android.view.MotionEvent;
  * @name HHTStrokelib
  * @email momo.weiye@gmail.com
  * @time 2020/7/7 9:16
- * @describe  单例 HHTStrokePath，该类作用生成硬笔与软笔效果的Path(软笔有笔锋效果)。
- * 由于是单例类，所以只支持单笔书写生成Path。
+ * @describe  单例 HHTStrokePath，该类作用生成硬笔与软笔效果的Path(软笔有笔锋效果,硬笔效果不明显)。
+ * 由于是单例类，所以只支持单笔书写生成Path。 若需多笔同时书写请用{@link HHTMutilStrokePath}
  */
-public class HHTStrokePath {
+public final class HHTStrokePath {
 
-    //硬笔类型
-    private static final int TYPE_HEAD_PEN = 1;
-    //软笔类型
-    private static final int TYPE_SOFT_PEN = 2;
 
     private static HHTStrokePath mInstance;
 
     private HHStrokesAdr strokesAdr;
-    private int penType;
-    private float penWidth;
 
     private Path path;
     private  Path tempPath;
@@ -43,38 +37,19 @@ public class HHTStrokePath {
 
     private HHTStrokePath(){
         strokesAdr = new HHStrokesAdr();
-        penType = TYPE_SOFT_PEN;
-        penWidth = 5f;
         path = new Path();
         tempPath = new Path();
     }
 
-    /**
-     * 设置Path的宽度px
-     * @param strokeWidth
-     */
-    public void setStrokeWidth(float strokeWidth){
-        penWidth = strokeWidth;
-    }
-
-    /**
-     * 设置Path的风格
-     * @param isHardPen 是否为硬笔效果
-     */
-    public void setStrokeType(boolean isHardPen){
-        if(isHardPen){
-            penType = TYPE_HEAD_PEN;
-        }else{
-            penType = TYPE_SOFT_PEN;
-        }
-    }
 
     /**
      *
      * @param event
+     * @param penWidth
+     * @param penType
      * @return 是否成功初始化本画笔
      */
-    public boolean touchDown(MotionEvent event){
+    public boolean touchDown(MotionEvent event,float penWidth,@HHTStrokePathType int penType){
         if(strokesAdr.initStroke(1.0f,1.0f,penWidth,penType)){
             strokesAdr.startCreate(event.getX(),event.getY(),event.getEventTime());
             path.reset();

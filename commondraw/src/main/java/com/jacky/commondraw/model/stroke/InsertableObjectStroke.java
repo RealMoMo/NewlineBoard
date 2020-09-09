@@ -77,7 +77,7 @@ public class InsertableObjectStroke extends InsertableObjectBase {
      * 画笔类型
      */
     protected int mStrokeType = STROKE_TYPE_NORMAL;
-    protected float mStrokeWidth = 20;// 画笔宽度
+    protected float mStrokeWidth = 10;// 画笔宽度
     protected int mColor = Color.RED;
     /**
      * 透明度 0-255
