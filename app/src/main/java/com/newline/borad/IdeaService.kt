@@ -154,8 +154,6 @@ class IdeaService : Service(), FakeNoteWidget.NoteGestureListener,
     }
 
     override fun windowMove(x: Int, y: Int) {
-        Log.d("realmo","x:"+x)
-        Log.d("realmo","y:"+y)
         if(x>maxX){
             mLayoutParams.x = maxX/2
         }else{
@@ -167,8 +165,6 @@ class IdeaService : Service(), FakeNoteWidget.NoteGestureListener,
         }else{
             mLayoutParams.y = y/2
         }
-//        mLayoutParams.x = x/2
-//        mLayoutParams.y = y/2
 
         mWindowManager.updateViewLayout(noteView,mLayoutParams)
     }

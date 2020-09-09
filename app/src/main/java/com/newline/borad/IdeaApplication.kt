@@ -17,9 +17,9 @@ class IdeaApplication : Application() {
         super.onCreate()
 
         //假4k
-//        ScreenAdapterUtils.setDensity(this,640F,true)
+        ScreenAdapterUtils.setDensity(this,640F,true)
 
         //真实适配 1920 hdpi 一套图适配
-        ScreenAdapterUtils.setDensity(this,1280F,true)
+//        ScreenAdapterUtils.setDensity(this,1280F,true)
     }
 }
