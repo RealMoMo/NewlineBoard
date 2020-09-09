@@ -523,7 +523,7 @@ public class DoodleView  extends SurfaceView implements IInternalDoodle {
         drawStrategy.draw();
 
         Drawable drawable = getBackground();
-        if (drawBg && drawable != null && drawable.isVisible()) {// 绘制背景
+        if (drawBg && drawable != null) {// 绘制背景
             FrameCache backgroundCache = new FrameCache(getWidth(), getHeight());
             drawable.setBounds(0, 0, getWidth(), getHeight());
             drawable.draw(backgroundCache.getCanvas());
