@@ -19,16 +19,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        testNoteView()
+        ///startNoteView()
 
-        testWindowEffect()
+        startWindowEffect()
 
 
         finish()
     }
 
 
-    private fun testNoteView(){
+    private fun startNoteView(){
         noteView = NoteWidget(this)
         setContentView(noteView)
         noteView.startShowNoteAnimation()
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun testWindowEffect(){
+    private fun startWindowEffect(){
         val intent = Intent(this,IdeaService::class.java)
         startService(intent)
 
