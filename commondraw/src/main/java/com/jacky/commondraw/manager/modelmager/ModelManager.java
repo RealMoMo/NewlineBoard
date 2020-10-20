@@ -204,7 +204,9 @@ public class ModelManager implements IModelManager,
                     if (!(mActingInsertableObject instanceof InsertableObjectStroke))
                         break;
                     InsertableObjectStroke stroke = (InsertableObjectStroke) mActingInsertableObject;
-
+                    if (stroke.getStrokeType() == InsertableObjectStroke.STROKE_TYPE_ERASER
+                    || stroke.getStrokeType() == InsertableObjectStroke.STROKE_TYPE_PHYS_ERASER
+                    ) {// 橡皮擦不参与图形识别
                         VisualElementBase visualElement = mIInternalDoodle
                                 .getVisualManager().getVisualElement(
                                         mActingInsertableObject);
@@ -213,7 +215,20 @@ public class ModelManager implements IModelManager,
                             addInsertableObjectInternal(mActingInsertableObject,
                                     false, false);
                         }
+                    } else {
 
+                        if (mIInternalDoodle.isShapeRecognition()) {// 图像识别
+                            fireStrokeReady(stroke);
+                            for (IIsertableObjectListener listener : mIsertableObjectListeners) {
+                                if (!(listener instanceof VisualManagerImpl)) {
+                                    listener.onRecognizeAdd();
+                                }
+                            }
+                        } else {
+                            addInsertableObjectInternal(mActingInsertableObject,
+                                    false, false);
+                        }
+                    }
                 }
                 mActingInsertableObject = null;
                 break;
