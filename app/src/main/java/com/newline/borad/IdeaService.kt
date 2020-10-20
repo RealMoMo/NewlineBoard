@@ -41,13 +41,13 @@ class IdeaService : Service(), FakeNoteWidget.NoteGestureListener,
      * NoteView 最小宽度
      */
     private val ideaMinWidth :Int by lazy {
-        (resources.displayMetrics.widthPixels *0.566f).toInt()*2
+        (resources.displayMetrics.widthPixels *0.567f).toInt()*2
     }
     /**
      * NoteView 最小高度
      */
     private val ideaMinHeight :Int by lazy {
-        (resources.displayMetrics.heightPixels *0.566f).toInt()*2
+        (resources.displayMetrics.heightPixels *0.567f).toInt()*2
     }
 
     /**
