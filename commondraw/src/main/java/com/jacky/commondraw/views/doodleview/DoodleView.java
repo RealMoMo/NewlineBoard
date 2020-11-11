@@ -518,6 +518,9 @@ public class DoodleView  extends SurfaceView implements IInternalDoodle {
         // 重新绘制所有笔画
         List<InsertableObjectBase> list = new ArrayList<InsertableObjectBase>();// 复制一份新数据，否则会出异常
         list.addAll(mModelManager.getInsertableObjectList());
+        if(list.size() <= 0){
+            return null;
+        }
         RedrawStrategy drawStrategy = new RedrawStrategy(null, frameCache, null,
                 list, mVisualManager);
         drawStrategy.draw();
