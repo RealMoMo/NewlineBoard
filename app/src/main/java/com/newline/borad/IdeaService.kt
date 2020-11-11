@@ -5,9 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.PixelFormat
 import android.os.Build
+import android.os.Environment
 import android.os.IBinder
 import android.util.Log
 import android.view.*
+import androidx.annotation.WorkerThread
 import com.jacky.commondraw.model.stroke.InsertableObjectStroke
 import com.jacky.commondraw.views.doodleview.DoodleEnum
 import com.newline.borad.utils.BitmapUtils
@@ -19,6 +21,12 @@ import com.newline.draw.toolbar.data.DrawOperation
 import com.newline.draw.toolbar.listeners.DrawEventListener
 import com.newline.draw.toolbar.widget.BaseDrawBarLayout
 import kotlinx.android.synthetic.main.layout_note.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 /**
@@ -184,10 +192,30 @@ class IdeaService : Service(), FakeNoteWidget.NoteGestureListener,
     }
 
     override fun noteExit() {
-        //TODO save idea content in workthread then to stopself service
-        BitmapUtils.saveBitmap(noteView.getNoteContent(true),"test.png")
-
+        //save idea content in workthread then to stopself service
+        runBlocking {
+            val deferred = async(Dispatchers.IO) {
+                saveIdea()
+            }
+            deferred.await()
+        }
         stopSelf()
+    }
+
+
+    @WorkerThread
+    private fun saveIdea() {
+        noteView.getNoteContent(true)?.let {
+            val dir = File(Environment.getExternalStorageDirectory().absolutePath+ File.separator+"NewlineIdea")
+            if(!dir.exists()){
+                dir.mkdirs()
+            }
+            BitmapUtils.saveBitmap(it,
+                File(dir,"Idea"+(SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().time))+".png").absolutePath
+            )
+
+        }
+
     }
 
 
