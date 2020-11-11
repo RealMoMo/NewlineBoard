@@ -50,6 +50,9 @@ class NoteWidget : FrameLayout, View.OnClickListener {
     private var vX:Float = 0F
     private var vY:Float = 0F
 
+    //是否为板擦类型
+    private var isGestureEarse : Boolean = false
+
     constructor(context: Context) : this(context,null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs,0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(
@@ -244,6 +247,11 @@ class NoteWidget : FrameLayout, View.OnClickListener {
                 velocityTracker = VelocityTracker.obtain()
                 velocityTracker?.addMovement(ev)
                 timeStamp = System.currentTimeMillis()
+                if(ev.getToolType(0) == MotionEvent.TOOL_TYPE_ERASER){
+                    isGestureEarse = true
+                }else{
+                    isGestureEarse = false
+                }
             }
             MotionEvent.ACTION_POINTER_DOWN->{
                 if(isSelfTouch){
@@ -251,6 +259,10 @@ class NoteWidget : FrameLayout, View.OnClickListener {
                 }
                 if(System.currentTimeMillis() - timeStamp <200){
                     isSelfTouch = true
+                    //若是板擦类型，则不响应多指手势
+                    if(isGestureEarse){
+                        isSelfTouch = false
+                    }
                 }else{
                     isSelfTouch = false
                 }
