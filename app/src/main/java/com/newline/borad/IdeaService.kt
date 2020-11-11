@@ -5,16 +5,26 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.PixelFormat
 import android.os.Build
+import android.os.Environment
 import android.os.IBinder
+import android.util.Log
 import android.view.*
+import androidx.annotation.WorkerThread
 import com.jacky.commondraw.model.stroke.InsertableObjectStroke
 import com.jacky.commondraw.views.doodleview.DoodleEnum
+import com.newline.borad.utils.BitmapUtils
 import com.newline.borad.widget.note.NoteWidget
 import com.newline.draw.toolbar.DrawBarManager
 import com.newline.draw.toolbar.data.DrawOperation
 import com.newline.draw.toolbar.listeners.DrawEventListener
 import com.newline.draw.toolbar.widget.BaseDrawBarLayout
 import kotlinx.android.synthetic.main.layout_note.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 /**
@@ -25,37 +35,36 @@ import kotlinx.android.synthetic.main.layout_note.view.*
  * @time 2020/7/2 16:14
  * @describe
  */
-class IdeaService : Service(),NoteWidget.NoteGestureListener, NoteWidget.NoteAnimationListener
-     {
+class IdeaService : Service(), NoteWidget.NoteGestureListener, NoteWidget.NoteAnimationListener {
 
     private lateinit var mWindowManager: WindowManager
     private lateinit var mLayoutParams: WindowManager.LayoutParams
-    private lateinit var noteView : NoteWidget
+    private lateinit var noteView: NoteWidget
     //private lateinit var drawBarManager: DrawBarManager
 
     /**
      * NoteView 最小宽度
      */
-    private val ideaMinWidth :Int by lazy {
-        (resources.displayMetrics.widthPixels *0.567f).toInt()
+    private val ideaMinWidth: Int by lazy {
+        (resources.displayMetrics.widthPixels * 0.567f).toInt()
     }
 
     /**
      * NoteView 最小高度
      */
-    private val ideaMinHeight :Int by lazy {
-        (resources.displayMetrics.heightPixels *0.567f).toInt()
+    private val ideaMinHeight: Int by lazy {
+        (resources.displayMetrics.heightPixels * 0.567f).toInt()
     }
 
     /**
      * NoteView 宽度
      */
-    private var ideaWidth : Int = 0
+    private var ideaWidth: Int = 0
 
     /**
      * NoteView 高度
      */
-    private var ideaHeight : Int = 0
+    private var ideaHeight: Int = 0
 
     /**
      * WindowManager是否添加了View标记
@@ -74,13 +83,13 @@ class IdeaService : Service(),NoteWidget.NoteGestureListener, NoteWidget.NoteAni
 
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if(!isAddView){
+        if (!isAddView) {
             isAddView = true
 
             mLayoutParams.x = 0
             mLayoutParams.y = 0
             mLayoutParams.gravity = Gravity.CENTER
-            mWindowManager.addView(noteView,mLayoutParams)
+            mWindowManager.addView(noteView, mLayoutParams)
 
 
             mLayoutParams.gravity = Gravity.START or Gravity.TOP
@@ -104,7 +113,7 @@ class IdeaService : Service(),NoteWidget.NoteGestureListener, NoteWidget.NoteAni
 
             noteView.startShowNoteAnimation()
         }
-        
+
         return super.onStartCommand(intent, flags, startId)
     }
 
@@ -124,7 +133,6 @@ class IdeaService : Service(),NoteWidget.NoteGestureListener, NoteWidget.NoteAni
         ideaHeight = ideaMinHeight
         mLayoutParams.width = ideaWidth
         mLayoutParams.height = ideaHeight
-
 
 
     }
@@ -151,11 +159,11 @@ class IdeaService : Service(),NoteWidget.NoteGestureListener, NoteWidget.NoteAni
         mLayoutParams.x = x
         mLayoutParams.y = y
 
-        mWindowManager.updateViewLayout(noteView,mLayoutParams)
+        mWindowManager.updateViewLayout(noteView, mLayoutParams)
     }
 
     override fun fling(velocityX: Float, velocityY: Float) {
-        if(velocityY > 0){
+        if (velocityY > 0) {
             noteView.startHideVortexAnimation()
         }
 
@@ -171,10 +179,13 @@ class IdeaService : Service(),NoteWidget.NoteGestureListener, NoteWidget.NoteAni
     }
 
     override fun hideAnimationEnd() {
-        //TODO save idea content in workthread then to stopself service
-
-        //tempExit()
-
+        //save idea content in workthread then to stopself service
+        runBlocking {
+            val deferred = async(Dispatchers.IO) {
+                saveIdea()
+            }
+            deferred.await()
+        }
         stopSelf()
     }
 
@@ -182,21 +193,33 @@ class IdeaService : Service(),NoteWidget.NoteGestureListener, NoteWidget.NoteAni
     }
 
     override fun hideVortexAnimationEnd() {
-        //TODO save idea content in workthread then to stopself service
 
         tempExit()
 
-        //stopSelf()
     }
-    
-    
-    private fun tempExit(){
+
+
+    private fun tempExit() {
         isAddView = false
         mWindowManager.removeViewImmediate(noteView)
 
     }
 
 
+    @WorkerThread
+    private fun saveIdea() {
+        noteView.getNoteContent(true)?.let {
+            val dir = File(Environment.getExternalStorageDirectory().absolutePath+File.separator+"NewlineIdea")
+            if(!dir.exists()){
+                dir.mkdirs()
+            }
+            BitmapUtils.saveBitmap(it,
+                File(dir,"Idea"+(SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().time))+".png").absolutePath
+            )
+
+        }
+
+    }
 
 
 }

@@ -20,8 +20,33 @@ import java.io.IOException;
 public class BitmapUtils {
 
 
-    public static void saveBitmap(Bitmap bitmap,String fileName) {
-        File f = new File(Environment.getExternalStorageDirectory(), fileName);
+//    public static void saveBitmap(Bitmap bitmap,String fileName) {
+//        File f = new File(Environment.getExternalStorageDirectory(), fileName);
+//        if (f.exists()) {
+//            f.delete();
+//        }
+//        try {
+//            FileOutputStream out = new FileOutputStream(f);
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
+//            out.flush();
+//            out.close();
+//        } catch (FileNotFoundException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//    }
+
+
+    /**
+     *
+     * @param bitmap
+     * @param  文件的绝对路径
+     */
+    public static void saveBitmap(Bitmap bitmap,String filePath) {
+        File f = new File( filePath);
         if (f.exists()) {
             f.delete();
         }
