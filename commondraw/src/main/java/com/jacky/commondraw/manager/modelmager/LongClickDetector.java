@@ -18,8 +18,8 @@ public class LongClickDetector {
             .getLongPressTimeout();// 1500;
     private static final float TOUCH_TOLERANCE = 40;
     private Path mPath = new Path();
-    private CountDown mLongClickCountDown = new CountDown(LONG_CLICK_TIMER,
-            LONG_CLICK_TIMER);
+//    private CountDown mLongClickCountDown = new CountDown(LONG_CLICK_TIMER,
+//            LONG_CLICK_TIMER);
     private LinkedList<OnLongClickListener> mLongClickListeners = new LinkedList<OnLongClickListener>();
     private MotionEvent mDownEvent = null;
 
@@ -29,17 +29,17 @@ public class LongClickDetector {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mDownEvent = MotionEvent.obtain(event);
-                mLongClickCountDown.start();
+                //mLongClickCountDown.start();
                 mPath.moveTo(x, y);
                 break;
             case MotionEvent.ACTION_MOVE:
                 mPath.lineTo(x, y);
-                if (computerPathLength(mPath) > TOUCH_TOLERANCE) {
-                    mLongClickCountDown.cancel();
-                }
+//                if (computerPathLength(mPath) > TOUCH_TOLERANCE) {
+//                    mLongClickCountDown.cancel();
+//                }
                 break;
             case MotionEvent.ACTION_UP:
-                mLongClickCountDown.cancel();
+                //mLongClickCountDown.cancel();
                 mPath.reset();
                 break;
         }
